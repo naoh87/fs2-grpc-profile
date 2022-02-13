@@ -19,6 +19,7 @@ libraryDependencies ++= Seq(
 bashScriptExtraDefines ++= Seq(
   "addJava -XX:MinRAMPercentage=70",
   "addJava -XX:MaxRAMPercentage=70",
+  "addJava -XX:+UseParallelGC",
 )
 
 dockerBaseImage := "amazoncorretto:17"
