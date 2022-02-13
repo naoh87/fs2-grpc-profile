@@ -1,7 +1,7 @@
 
 name := "fs2-grpc-quickstart-scala"
 
-version := "2.4.4"
+version := sys.env.getOrElse("V", "2.4.4")
 
 scalaVersion := "2.13.8"
 
