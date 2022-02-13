@@ -27,9 +27,30 @@ class GreeterServiceImplPb extends GreeterGrpc.Greeter {
   override def sayHello(request: HelloRequest): Future[HelloReply] =
     Future.successful(HelloReply(request.request))
 
-  override def sayHelloSS(request: HelloRequest, responseObserver: StreamObserver[HelloReply]): Unit = ???
+  override def sayHelloSS(request: HelloRequest, responseObserver: StreamObserver[HelloReply]): Unit = {
+    (0 until 100).foreach(_ => responseObserver.onNext(HelloReply(request.request)))
+    responseObserver.onCompleted()
+  }
 
-  override def sayHelloCS(responseObserver: StreamObserver[HelloReply]): StreamObserver[HelloRequest] = ???
+  override def sayHelloCS(responseObserver: StreamObserver[HelloReply]): StreamObserver[HelloRequest] = {
+    new StreamObserver[HelloRequest] {
+      var received: HelloRequest = _
+      override def onNext(v: HelloRequest): Unit = received = v
 
-  override def sayHelloBS(responseObserver: StreamObserver[HelloReply]): StreamObserver[HelloRequest] = ???
+      override def onError(throwable: Throwable): Unit =
+        responseObserver.onError(throwable)
+
+      override def onCompleted(): Unit =
+        responseObserver.onNext(Option(received).fold(HelloReply())(r => HelloReply(r.request)))
+    }
+  }
+
+  override def sayHelloBS(responseObserver: StreamObserver[HelloReply]): StreamObserver[HelloRequest] =
+    new StreamObserver[HelloRequest] {
+      override def onNext(v: HelloRequest): Unit = responseObserver.onNext(HelloReply(v.request))
+
+      override def onError(throwable: Throwable): Unit = responseObserver.onError(throwable)
+
+      override def onCompleted(): Unit = responseObserver.onCompleted()
+    }
 }
