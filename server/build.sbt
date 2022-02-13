@@ -38,7 +38,7 @@ dockerCommands := {
 
 dockerExposedPorts := Seq(50051)
 dependencyOverrides ++= Seq(
-   "org.typelevel" %% "fs2-grpc-runtime" % (if (version.value == "scalapb") "2.4.4" else version.version)
+   "org.typelevel" %% "fs2-grpc-runtime" % (if (version.value == "scalapb") "2.4.4" else version.value)
 )
 
 javaOptions ++= Seq(
