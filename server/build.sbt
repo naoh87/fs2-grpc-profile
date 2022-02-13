@@ -1,7 +1,7 @@
 
 name := "fs2-grpc-quickstart-scala"
 
-version := "1.0"
+version := "2.4.4"
 
 scalaVersion := "2.13.8"
 
@@ -36,14 +36,9 @@ dockerCommands := {
 }
 
 dockerExposedPorts := Seq(50051)
-// dependencyOverrides ++= Seq(
-//   "org.typelevel" %% "fs2-grpc-runtime" % "2.4.4-15-6dd15b8-SNAPSHOT"
-// )
-
-//with streaming
-// dependencyOverrides ++= Seq(
-//   "org.typelevel" %% "fs2-grpc-runtime" % "2.4.4-15-fe1fe39-20220212T060255Z-SNAPSHOT"
-// )
+dependencyOverrides ++= Seq(
+   "org.typelevel" %% "fs2-grpc-runtime" % version.value
+)
 
 javaOptions ++= Seq(
   // "-XX:+UseParallelGC",
