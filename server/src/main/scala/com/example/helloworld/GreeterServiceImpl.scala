@@ -40,8 +40,10 @@ class GreeterServiceImplPb extends GreeterGrpc.Greeter {
       override def onError(throwable: Throwable): Unit =
         responseObserver.onError(throwable)
 
-      override def onCompleted(): Unit =
+      override def onCompleted(): Unit = {
         responseObserver.onNext(Option(received).fold(HelloReply())(r => HelloReply(r.request)))
+        responseObserver.onCompleted()
+      }
     }
   }
 
