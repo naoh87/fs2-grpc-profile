@@ -47,8 +47,7 @@ object ClientTest extends IOApp {
   def printResult(result: List[Result]): IO[Unit] = IO {
     val dist = result.toArray.sorted
     val N = dist.length
-    println(s"count: $N")
-    println(s"success count: ${dist.count(_.ok)}")
+    println(s"count: $N in 30s")
     val totalRun = result.foldLeft(Duration.Zero)(_ + _.duration)
     if (N > 0) {
       println(s"rps: ${N / 30.0}")
