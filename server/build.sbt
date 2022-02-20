@@ -24,6 +24,7 @@ bashScriptExtraDefines ++= Seq(
 
 dockerBaseImage := "amazoncorretto:17"
 
+connectInput := true
 
 dockerCommands := {
   import com.typesafe.sbt.packager.docker._
